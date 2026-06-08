@@ -770,9 +770,9 @@
     #reel video {
       position:absolute; inset:0;
       width:100%; height:100%; object-fit:cover;
-      display:block;
     }
-    .reel-mob { display:none; }
+    .reel-desk { display:block; }
+    .reel-mob  { display:none; }
     @media (max-width:768px) {
       .reel-desk { display:none; }
       .reel-mob  { display:block; }
@@ -1823,7 +1823,7 @@
 
 /* ════════════════════════════════════════════════════════
    §8  UM AMBIENTE QUE APROXIMA PESSOAS
-════════════════════════════════════════════════════════ *
+════════════════════════════════════════════════════════ */
 #sec-people {
   background: var(--emerald-d);
   overflow: hidden;
@@ -1889,11 +1889,11 @@
 }
 
 
-/* === SEÇÃO 9: CATERHAM EXP CINEMATIC === */
+/* === SEÇÃO 9: CATERHAM EXP — SCATTER === */
 
 #sec-caterham-exp {
   position: relative;
-  height: 1430vh;
+  height: 360vh;
   background: var(--ink);
 }
 .cte-lock {
@@ -1904,7 +1904,6 @@
   overflow: hidden;
   background: var(--ink);
 }
-
 .cte-intro {
   position: absolute; inset: 0; z-index: 5;
   display: flex; flex-direction: column;
@@ -1946,83 +1945,154 @@
   50%      { opacity: 1;  transform: translateY(6px); }
 }
 
-.cte-layer {
+/* --- Scatter container --- */
+.cte-scatter {
   position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  padding: 28px 44px;
-}
-.cte-layer:nth-child(2)  { z-index: 10; }
-.cte-layer:nth-child(3)  { z-index: 20; }
-.cte-layer:nth-child(4)  { z-index: 30; }
-.cte-layer:nth-child(5)  { z-index: 40; }
-.cte-layer:nth-child(6)  { z-index: 50; }
-.cte-layer:nth-child(7)  { z-index: 60; }
-.cte-layer:nth-child(8)  { z-index: 70; }
-.cte-layer:nth-child(9)  { z-index: 80; }
-.cte-layer:nth-child(10) { z-index: 90; }
-.cte-layer:nth-child(11) { z-index: 100; }
-.cte-layer:nth-child(12) { z-index: 110; }
-
-.cte-card {
-  width: 100%; height: 100%;
-  border-radius: 24px; overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.06);
-  position: relative;
-  will-change: transform, opacity;
-  transform-origin: center center;
-}
-.cte-card img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-.cte-card-veil {
-  position: absolute; inset: 0; pointer-events: none; border-radius: 24px;
-  background: linear-gradient(to top, rgba(0,0,0,.78) 0%, rgba(0,0,0,.28) 40%, rgba(0,0,0,.05) 100%);
-}
-
-.cte-text-overlay {
-  position: absolute; inset: 0;
-  z-index: 200; pointer-events: none;
-}
-.cte-text-item {
-  position: absolute; bottom: 88px; left: 96px;
-  opacity: 0; will-change: opacity, transform; max-width: 520px;
-}
-.cte-chapter-num {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; letter-spacing: .28em; color: var(--lime);
-  opacity: .85; display: block; margin-bottom: 10px;
-}
-.cte-chapter-title {
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
-  font-weight: 700; text-transform: uppercase;
-  font-size: clamp(40px, 5vw, 80px);
-  line-height: .92; letter-spacing: -.02em; color: var(--paper); margin-bottom: 14px;
-  text-shadow: 0 2px 20px rgba(0,0,0,.6);
-}
-.cte-chapter-sub {
-  font-family: 'Inter', sans-serif; font-weight: 300;
-  font-size: clamp(14px, 1.2vw, 17px); line-height: 1.6;
-  color: rgba(251,251,252,.82);
-  text-shadow: 0 1px 10px rgba(0,0,0,.8);
-}
-.cte-chapter-line { width: 36px; height: 2px; background: var(--lime); margin-top: 18px; }
-
-.cte-counter {
-  position: absolute; top: 32px; right: 56px;
-  z-index: 201;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; letter-spacing: .16em; color: var(--paper-40);
   pointer-events: none;
 }
-.cte-counter span { color: var(--lime); font-weight: 500; }
+
+/* --- Individual photo card --- */
+.cte-photo-card {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: clamp(180px, 22vw, 310px);
+  aspect-ratio: 4/3;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0,0,0,.72), 0 0 0 1px rgba(255,255,255,.07);
+  will-change: transform, opacity;
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 0;
+}
+.cte-photo-card:hover {
+  box-shadow: 0 20px 64px rgba(0,0,0,.88), 0 0 0 1px rgba(202,211,2,.45);
+  z-index: 500 !important;
+  transition: box-shadow .25s ease;
+}
+.cte-photo-card:hover .cte-photo-img {
+  transform: scale(1.06);
+}
+.cte-photo-img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1);
+}
+.cte-photo-veil {
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(0,0,0,.74) 0%, transparent 52%);
+}
+.cte-photo-label {
+  position: absolute; bottom: 10px; left: 12px; right: 12px;
+  display: flex; align-items: baseline; gap: 7px;
+  pointer-events: none;
+}
+.cte-photo-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: .22em;
+  color: var(--lime); opacity: .9; flex-shrink: 0;
+}
+.cte-photo-title {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase;
+  font-size: clamp(9px, 1vw, 13px);
+  letter-spacing: .04em; color: var(--paper);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 
 @media (max-width: 768px) {
-  #sec-caterham-exp { height: 1200vh; }
-  .cte-layer { padding: 14px 18px; }
-  .cte-card { border-radius: 16px; }
-  .cte-text-item { bottom: 52px; left: 30px; right: 30px; max-width: 100%; }
-  .cte-chapter-title { font-size: 36px; }
-  .cte-counter { top: 18px; right: 24px; }
+  #sec-caterham-exp { height: 320vh; }
+  .cte-photo-card { width: clamp(110px, 28vw, 200px); border-radius: 8px; }
+}
+@media (max-width: 640px) {
+  #sec-caterham-exp { height: 290vh; }
+  .cte-photo-card {
+    width: clamp(85px, 28vw, 130px);
+    aspect-ratio: 2/3;
+    border-radius: 6px;
+  }
+}
+
+/* ── LIGHTBOX ─────────────────────────────────────────────── */
+#cte-lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0);
+  opacity: 0; pointer-events: none;
+  transition: opacity .32s ease, background .32s ease;
+}
+#cte-lightbox.lb-open {
+  opacity: 1; pointer-events: all;
+  background: rgba(0,0,0,.92);
+}
+#cte-lightbox .lb-img-wrap {
+  position: relative;
+  max-width: min(92vw, 1200px);
+  max-height: 90vh;
+  display: flex; align-items: center; justify-content: center;
+}
+#cte-lightbox .lb-img {
+  display: block;
+  max-width: 100%; max-height: 90vh;
+  width: auto; height: auto;
+  border-radius: 10px;
+  box-shadow: 0 32px 96px rgba(0,0,0,.8);
+  transform: scale(.88); opacity: 0;
+  transition: transform .36s cubic-bezier(.2,.8,.2,1), opacity .36s ease;
+  object-fit: contain;
+}
+#cte-lightbox.lb-open .lb-img {
+  transform: scale(1); opacity: 1;
+}
+/* caption */
+#cte-lightbox .lb-caption {
+  position: absolute; bottom: -42px; left: 0; right: 0;
+  display: flex; align-items: center; gap: 10px;
+  opacity: 0; transition: opacity .3s ease .18s;
+}
+#cte-lightbox.lb-open .lb-caption { opacity: 1; }
+#cte-lightbox .lb-cap-num {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--lime);
+}
+#cte-lightbox .lb-cap-title {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-weight: 700; text-transform: uppercase; font-size: 13px; color: var(--paper);
+  letter-spacing: .06em;
+}
+/* close */
+#cte-lightbox .lb-close {
+  position: fixed; top: 20px; right: 24px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18);
+  color: #fff; font-size: 22px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s, transform .2s;
+  backdrop-filter: blur(6px);
+}
+#cte-lightbox .lb-close:hover { background: rgba(255,255,255,.22); transform: scale(1.1); }
+/* prev / next */
+#cte-lightbox .lb-nav {
+  position: fixed; top: 50%; transform: translateY(-50%);
+  width: 48px; height: 64px;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px; color: #fff; font-size: 22px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background .2s, transform .2s;
+  backdrop-filter: blur(6px); user-select: none;
+}
+#cte-lightbox .lb-nav:hover { background: rgba(202,211,2,.22); border-color: var(--lime); }
+#cte-lightbox .lb-prev { left: 16px; }
+#cte-lightbox .lb-next { right: 16px; }
+#cte-lightbox .lb-counter {
+  position: fixed; top: 24px; left: 50%; transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  color: rgba(255,255,255,.55); letter-spacing: .08em;
+}
+@media (max-width: 640px) {
+  #cte-lightbox .lb-nav { width: 38px; height: 52px; font-size: 18px; }
+  #cte-lightbox .lb-prev { left: 8px; }
+  #cte-lightbox .lb-next { right: 8px; }
+  #cte-lightbox .lb-img-wrap { max-width: 96vw; }
 }
 
 
@@ -2373,36 +2443,6 @@
 
 /* Mobile ≤ 640px */
 @media (max-width: 640px) {
-  /* Section 9 */
-  #sec-caterham-exp {
-    padding: 80px 0;
-  }
-
-  .cte-mosaic {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .cte-r1-a,
-  .cte-r1-b,
-  .cte-r1-c,
-  .cte-r2-a,
-  .cte-r2-b,
-  .cte-r2-c,
-  .cte-r3-a,
-  .cte-r3-b,
-  .cte-r3-c,
-  .cte-r4-a,
-  .cte-r4-b {
-    grid-column: auto;
-    grid-row: auto;
-    height: 220px;
-  }
-
-  .cte-cap {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   /* Section 10 */
   #sec-caterham-what {
     padding: 80px 0 0;
@@ -2905,23 +2945,21 @@
 
   <div class="hero-grid">
     <div>
-      <div class="hero-num" data-r>RACE EXPERIENCE · SCUDERIA BANDEIRAS × CATERHAM</div>
+      <div class="hero-num" data-r>RACE EXPERIENCE • SCUDERIA BANDEIRAS</div>
       <h1 class="hero-h1" data-r="up">
-        Sua equipe<br>
-        <span class="lime">acelera</span> em uma<br>
-        corrida <span class="out">real.</span>
+        Onde a pista<br>
+        encontra a <span class="lime">alta</span><br>
+        <span class="out">performance.</span>
       </h1>
       <p class="hero-sub d1" data-r="up">
-        A única experiência onde é possível acelerar em uma corrida real
-        <strong>ao lado de pilotos profissionais</strong>. A equipe entra
-        na pista, enfrenta pressão de verdade e vive uma experiência que
-        transforma postura, fortalece conexões e eleva a performance.
+        Um ambiente criado para desenvolver liderança, fortalecer equipes
+        e mostrar na prática como comunicação, foco e capacidade de
+        execução influenciam resultados.
       </p>
       <div class="hero-cta d2" data-r="up">
         <a href="https://wa.me/5515998570854" class="btn btn-lime" target="_blank" rel="noopener">
-          <span class="flag"></span>Quero viver essa experiência
+          <span class="flag"></span>Falar com o time
         </a>
-        <span class="small">VAGAS LIMITADAS · CONSULTE DISPONIBILIDADE</span>
       </div>
     </div>
 
@@ -3468,148 +3506,81 @@
       <div class="cte-intro-hint">&#8595; &nbsp; Role para viver a experiência &nbsp; &#8595;</div>
     </div>
 
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="0">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1219.jpg" alt="BRIEFING" loading="eager">
-        <div class="cte-card-veil"></div>
+    <div class="cte-scatter" id="cteScatter">
+      <div class="cte-photo-card" data-cte-idx="0">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1219.jpg" alt="Briefing" loading="eager">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">01</span><span class="cte-photo-title">Briefing</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="1">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1302.jpg" alt="PREPARACAO" loading="eager">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="1">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1302.jpg" alt="Preparação" loading="eager">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">02</span><span class="cte-photo-title">Preparação</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="2">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1377.jpg" alt="PRIMEIRO CONTATO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="2">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1377.jpg" alt="Primeiro Contato" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">03</span><span class="cte-photo-title">Primeiro Contato</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="3">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1640.jpg" alt="REACAO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="3">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1640.jpg" alt="Reação" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">04</span><span class="cte-photo-title">Reação</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="4">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1672.jpg" alt="PRECISAO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="4">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1672.jpg" alt="Precisão" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">05</span><span class="cte-photo-title">Precisão</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="5">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1844.jpg" alt="PERFORMANCE" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="5">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1844.jpg" alt="Performance" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">06</span><span class="cte-photo-title">Performance</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="6">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1964.jpg" alt="COMPETICAO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="6">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-1964.jpg" alt="Competição" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">07</span><span class="cte-photo-title">Competição</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="7">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2032.jpg" alt="VITORIA" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="7">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2032.jpg" alt="Vitória" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">08</span><span class="cte-photo-title">Vitória</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="8">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2046.jpg" alt="TRANSFORMACAO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="8">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2046.jpg" alt="Transformação" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">09</span><span class="cte-photo-title">Transformação</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="9">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2352.jpg" alt="A PISTA" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="9">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-2352.jpg" alt="A Pista" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">10</span><span class="cte-photo-title">A Pista</span></div>
       </div>
-    </div>
-    <div class="cte-layer">
-      <div class="cte-card" data-cte="10">
-        <img src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-3227.jpg" alt="O LEGADO" loading="lazy">
-        <div class="cte-card-veil"></div>
+      <div class="cte-photo-card" data-cte-idx="10">
+        <img class="cte-photo-img" src="Brand/Imagem/se%C3%A7%C3%A3o-9/20260528_scuderiabandeiras_raceexperience_fazendacapuava_dudabairros-3227.jpg" alt="O Legado" loading="lazy">
+        <div class="cte-photo-veil"></div>
+        <div class="cte-photo-label"><span class="cte-photo-num">11</span><span class="cte-photo-title">O Legado</span></div>
       </div>
-    </div>
-
-    <div class="cte-text-overlay" id="cteTextOverlay">
-      <div class="cte-text-item" data-cte-text="0">
-        <span class="cte-chapter-num">01</span>
-        <h3 class="cte-chapter-title">BRIEFING</h3>
-        <p class="cte-chapter-sub">A jornada comeca antes da pista.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="1">
-        <span class="cte-chapter-num">02</span>
-        <h3 class="cte-chapter-title">PREPARACAO</h3>
-        <p class="cte-chapter-sub">Entender o desafio antes de acelerar.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="2">
-        <span class="cte-chapter-num">03</span>
-        <h3 class="cte-chapter-title">PRIMEIRO CONTATO</h3>
-        <p class="cte-chapter-sub">Piloto e maquina comecam a conversar.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="3">
-        <span class="cte-chapter-num">04</span>
-        <h3 class="cte-chapter-title">REACAO</h3>
-        <p class="cte-chapter-sub">Cada curva devolve uma resposta imediata.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="4">
-        <span class="cte-chapter-num">05</span>
-        <h3 class="cte-chapter-title">PRECISAO</h3>
-        <p class="cte-chapter-sub">Pequenas decisoes geram grandes resultados.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="5">
-        <span class="cte-chapter-num">06</span>
-        <h3 class="cte-chapter-title">PERFORMANCE</h3>
-        <p class="cte-chapter-sub">A velocidade revela comportamentos.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="6">
-        <span class="cte-chapter-num">07</span>
-        <h3 class="cte-chapter-title">COMPETICAO</h3>
-        <p class="cte-chapter-sub">Sob pressao, equipes mostram sua essencia.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="7">
-        <span class="cte-chapter-num">08</span>
-        <h3 class="cte-chapter-title">VITORIA</h3>
-        <p class="cte-chapter-sub">Resultado e consequencia da execucao.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="8">
-        <span class="cte-chapter-num">09</span>
-        <h3 class="cte-chapter-title">TRANSFORMACAO</h3>
-        <p class="cte-chapter-sub">Voce sai diferente de como entrou.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="9">
-        <span class="cte-chapter-num">10</span>
-        <h3 class="cte-chapter-title">A PISTA</h3>
-        <p class="cte-chapter-sub">O palco onde tudo acontece.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-      <div class="cte-text-item" data-cte-text="10">
-        <span class="cte-chapter-num">11</span>
-        <h3 class="cte-chapter-title">O LEGADO</h3>
-        <p class="cte-chapter-sub">O que fica depois da bandeirada.</p>
-        <div class="cte-chapter-line"></div>
-      </div>
-    </div>
-
-    <div class="cte-counter" id="cteCounter">
-      <span id="cteIdx">01</span> / 11
     </div>
 
   </div>
 </section>
+
+<!-- ── LIGHTBOX ── -->
+<div id="cte-lightbox" role="dialog" aria-modal="true" aria-label="Visualização da foto">
+  <button class="lb-close" id="lbClose" aria-label="Fechar">&#10005;</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">&#8592;</button>
+  <div class="lb-img-wrap">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-caption">
+      <span class="lb-cap-num" id="lbCapNum"></span>
+      <span class="lb-cap-title" id="lbCapTitle"></span>
+    </div>
+  </div>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Próxima">&#8594;</button>
+  <span class="lb-counter" id="lbCounter"></span>
+</div>
 
 <!-- ============================================================
      SECTION 10: O QUE É O CATERHAM SEVEN
@@ -3742,7 +3713,7 @@
 <!-- ============================================================
      SECTION 12 — TESTIMONIALS VIDEO CAROUSEL
      ============================================================ -->
-<section id="sec-testimonials">
+<section id="sec-testimonials" style="display:none">
   <div class="wrap">
     <div class="test-header" data-r>
       <span class="label">Depoimentos</span>
@@ -4239,63 +4210,215 @@
   });
 })();
 
-  /* -- Caterham Exp Cinematic Scroll (sec-caterham-exp) -- */
+  /* -- Caterham Exp Scatter → Panel (sec-caterham-exp) -- */
 (function() {
-  var section   = document.getElementById('sec-caterham-exp');
-  var cards     = section ? section.querySelectorAll('.cte-card') : [];
-  var textItems = section ? section.querySelectorAll('.cte-text-item') : [];
-  var intro     = document.getElementById('cteIntro');
-  var idxEl     = document.getElementById('cteIdx');
-  var n = cards.length;
-  if (!n) return;
-  function clamp(v,lo,hi){ return v<lo?lo:v>hi?hi:v; }
-  function lerp(a,b,t){ return a+(b-a)*t; }
-  var lastActive = -1;
+  var section = document.getElementById('sec-caterham-exp');
+  var intro   = document.getElementById('cteIntro');
+  var cards   = section ? Array.from(section.querySelectorAll('.cte-photo-card')) : [];
+  if (!cards.length) return;
+
+  // Desktop: 4+4+3
+  var D_SCATTER = [
+    [-54,-50,-14],[-26,-54,10],[4,-52,-6],[30,-54,14],[56,-48,-9],
+    [-44,3,11],[-16,-4,-16],[17,2,6],[46,-3,-12],
+    [-28,52,-13],[15,54,9]
+  ];
+  var D_GRID = [
+    [-36,-32,0],[-12,-32,0],[12,-32,0],[36,-32,0],
+    [-36,0,0],[-12,0,0],[12,0,0],[36,0,0],
+    [-24,32,0],[0,32,0],[24,32,0]
+  ];
+
+  // Tablet 641-768px: 3+3+3+2
+  var T_SCATTER = [
+    [-40,-46,-12],[0,-52,8],[40,-46,-6],
+    [-46,-4,11],[0,-4,-14],[46,-4,6],
+    [-40,30,-10],[0,30,6],[40,30,-12],
+    [-22,52,-11],[22,52,8]
+  ];
+  var T_GRID = [
+    [-30,-27,0],[0,-27,0],[30,-27,0],
+    [-30,-9,0],[0,-9,0],[30,-9,0],
+    [-30,9,0],[0,9,0],[30,9,0],
+    [-16,27,0],[16,27,0]
+  ];
+
+  // Mobile ≤640px: scatter explosivo (portrait 2:3)
+  var M_SCATTER = [
+    [-38,-52,-12],[0,-60,8],[38,-52,-6],
+    [-46,-4,11],[0,-4,-14],[46,-4,6],
+    [-38,38,-10],[0,38,6],[38,38,-12],
+    [-22,60,-11],[22,60,8]
+  ];
+
+  // Calcula posições das linhas dinamicamente para preencher 100vh sem espaços
+  function calcMobileGrid(vw, vh) {
+    var cardW = Math.min(Math.max(85, vw * 0.28), 130);
+    var cardH = cardW * 1.5; // aspect-ratio 2/3 → height = width × 3/2
+    var cardHvh = cardH / vh * 100;
+    var rows = 4;
+    var gap = Math.max(0.8, (100 - rows * cardHvh) / (rows - 1));
+    var rowSpacing = cardHvh + gap;
+    var r0Y = -1.5 * rowSpacing;
+    var col = 30;
+    return [
+      [-col, r0Y,              0],[0, r0Y,              0],[col, r0Y,              0],
+      [-col, r0Y+rowSpacing,   0],[0, r0Y+rowSpacing,   0],[col, r0Y+rowSpacing,   0],
+      [-col, r0Y+rowSpacing*2, 0],[0, r0Y+rowSpacing*2, 0],[col, r0Y+rowSpacing*2, 0],
+      [-col/2, r0Y+rowSpacing*3, 0],[col/2, r0Y+rowSpacing*3, 0]
+    ];
+  }
+
+  var SCATTER, GRID, lastVW = -1, lastVH = -1;
+  function refreshLayout() {
+    var vw = window.innerWidth, vh = window.innerHeight;
+    if (vw === lastVW && vh === lastVH) return;
+    lastVW = vw; lastVH = vh;
+    if (vw <= 640)      { SCATTER = M_SCATTER; GRID = calcMobileGrid(vw, vh); }
+    else if (vw <= 768) { SCATTER = T_SCATTER; GRID = T_GRID; }
+    else                { SCATTER = D_SCATTER; GRID = D_GRID; }
+  }
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function easeOutBack(t) {
+    var c1 = 1.5, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  var SPREAD_START     = 0.08;
+  var STAGGER          = 0.004;
+  var CARD_DUR         = 0.18;
+  var ORGANIZE_START   = 0.34;
+  var ORGANIZE_DUR     = 0.50;
+  var ORGANIZE_STAGGER = 0.006;
+
   function update() {
+    refreshLayout();
     var vh = window.innerHeight;
     var rect = section.getBoundingClientRect();
     var scrollRange = Math.max(1, section.offsetHeight - vh);
     var progress = clamp(-rect.top / scrollRange, 0, 1);
-    var step = progress * (n - 1);
-    var activeImg = Math.min(Math.floor(step), n - 1);
-    var t = step - Math.floor(step);
-    if (intro) intro.style.opacity = (1 - clamp(step / 0.8, 0, 1)).toFixed(4);
-    cards.forEach(function(card, i) {
-      var scale, opacity, ty;
-      if (i < activeImg) {
-        scale = 0.92; opacity = 0.12; ty = -40;
-      } else if (i === activeImg) {
-        scale = lerp(1.0, 0.92, t); opacity = lerp(1.0, 0.12, t); ty = lerp(0, -40, t);
-      } else if (i === activeImg + 1) {
-        scale = lerp(1.08, 1.0, t); opacity = lerp(0.0, 1.0, t); ty = lerp(20, 0, t);
-      } else {
-        scale = 1.08; opacity = 0; ty = 20;
-      }
-      card.style.transform = 'scale(' + scale.toFixed(4) + ') translateY(' + ty.toFixed(1) + 'px)';
-      card.style.opacity   = opacity.toFixed(4);
-    });
-    textItems.forEach(function(item, i) {
-      var op, ty;
-      if (i < activeImg) {
-        op = 0; ty = -24;
-      } else if (i === activeImg) {
-        var outP = clamp(t / 0.28, 0, 1); op = 1 - outP; ty = lerp(0, -24, outP);
-      } else if (i === activeImg + 1) {
-        var inP = clamp((t - 0.72) / 0.28, 0, 1); op = inP; ty = lerp(24, 0, inP);
-      } else {
-        op = 0; ty = 24;
-      }
-      item.style.opacity   = op.toFixed(4);
-      item.style.transform = 'translateY(' + ty.toFixed(1) + 'px)';
-    });
-    if (activeImg !== lastActive) {
-      if (idxEl) idxEl.textContent = (activeImg + 1).toString().padStart(2,'0');
-      lastActive = activeImg;
+
+    if (intro) {
+      intro.style.opacity = (1 - clamp((progress - 0.06) / 0.12, 0, 1)).toFixed(4);
     }
+
+    cards.forEach(function(card, i) {
+      var cStart = SPREAD_START + i * STAGGER;
+      var t1 = clamp((progress - cStart) / CARD_DUR, 0, 1);
+      var e1 = t1 < 1 ? easeOutBack(t1) : 1;
+
+      var oStart = ORGANIZE_START + i * ORGANIZE_STAGGER;
+      var t2 = clamp((progress - oStart) / ORGANIZE_DUR, 0, 1);
+      var e2 = easeInOutCubic(t2);
+
+      var s = SCATTER[i], g = GRID[i];
+      var dx = lerp(s[0] * e1, g[0], e2);
+      var dy = lerp(s[1] * e1, g[1], e2);
+      var dr = lerp(s[2] * e1, 0,    e2);
+
+      card.style.transform =
+        'translate(calc(-50% + ' + dx.toFixed(2) + 'vw),' +
+        ' calc(-50% + ' + dy.toFixed(2) + 'vh))' +
+        ' rotate(' + dr.toFixed(2) + 'deg)';
+      card.style.opacity = Math.min(1, t1 * 2.5).toFixed(4);
+      card.style.zIndex  = 11 - i;
+    });
   }
+
   window.addEventListener('scroll', update, { passive: true });
   window.addEventListener('resize', update, { passive: true });
+  refreshLayout();
   update();
+
+  /* ── LIGHTBOX ── */
+  (function() {
+    var lb      = document.getElementById('cte-lightbox');
+    var lbImg   = document.getElementById('lbImg');
+    var lbNum   = document.getElementById('lbCapNum');
+    var lbTitle = document.getElementById('lbCapTitle');
+    var lbCnt   = document.getElementById('lbCounter');
+    var lbClose = document.getElementById('lbClose');
+    var lbPrev  = document.getElementById('lbPrev');
+    var lbNext  = document.getElementById('lbNext');
+    if (!lb) return;
+
+    var allCards = Array.from(section.querySelectorAll('.cte-photo-card'));
+    var current  = 0;
+
+    function getCardData(card) {
+      var img   = card.querySelector('.cte-photo-img');
+      var num   = card.querySelector('.cte-photo-num');
+      var title = card.querySelector('.cte-photo-title');
+      return {
+        src:   img   ? img.src   : '',
+        alt:   img   ? img.alt   : '',
+        num:   num   ? num.textContent : '',
+        title: title ? title.textContent : ''
+      };
+    }
+
+    function show(idx) {
+      current = (idx + allCards.length) % allCards.length;
+      var d = getCardData(allCards[current]);
+      lbImg.style.opacity   = '0';
+      lbImg.style.transform = 'scale(.92)';
+      setTimeout(function() {
+        lbImg.src           = d.src;
+        lbImg.alt           = d.alt;
+        lbNum.textContent   = d.num;
+        lbTitle.textContent = d.title;
+        lbCnt.textContent   = (current + 1) + ' / ' + allCards.length;
+        lbImg.style.opacity   = '1';
+        lbImg.style.transform = 'scale(1)';
+      }, 160);
+    }
+
+    function open(idx) {
+      show(idx);
+      lb.classList.add('lb-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function close() {
+      lb.classList.remove('lb-open');
+      document.body.style.overflow = '';
+    }
+
+    allCards.forEach(function(card, i) {
+      card.addEventListener('click', function(e) {
+        e.stopPropagation();
+        open(i);
+      });
+    });
+
+    lbClose.addEventListener('click', close);
+    lbPrev.addEventListener('click',  function(e) { e.stopPropagation(); show(current - 1); });
+    lbNext.addEventListener('click',  function(e) { e.stopPropagation(); show(current + 1); });
+
+    lb.addEventListener('click', function(e) {
+      if (e.target === lb) close();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('lb-open')) return;
+      if (e.key === 'Escape')     close();
+      if (e.key === 'ArrowLeft')  show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+
+    var touchStartX = 0;
+    lb.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', function(e) {
+      var dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) dx < 0 ? show(current + 1) : show(current - 1);
+    }, { passive: true });
+  })();
+
 })();
 
   // ── Seções 12-13: Depoimentos + CTA
