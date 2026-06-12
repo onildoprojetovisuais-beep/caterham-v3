@@ -3946,7 +3946,6 @@
   overflow: hidden;
   background: var(--ink);
   padding: 2px 0 0;
-  touch-action: pan-y;
 }
 /* Vinhetas laterais fade */
 .leg-carousel::before,
@@ -4009,9 +4008,22 @@
   .leg-content-col { padding: 48px 24px 72px; }
   .leg-headline { font-size: clamp(38px, 9vw, 56px); }
   .leg-track-img { height: 160px; }
+  /* Carrossel: scroll nativo no mobile */
+  .leg-carousel {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .leg-carousel::-webkit-scrollbar { display: none; }
   .leg-carousel::before,
-  .leg-carousel::after { width: 60px; }
-  .leg-track { animation-duration: 22s; }
+  .leg-carousel::after { display: none; }
+  .leg-track {
+    animation: none;
+    transform: none;
+    gap: 8px;
+    padding: 0 12px;
+  }
 }
 </style>
 
@@ -4799,63 +4811,37 @@
   }, { passive: true });
 })();
 
-/* ── Carrossel DNA da Pista: drag por toque no mobile ── */
+/* ── Carrossel DNA da Pista: auto-scroll + loop infinito no mobile ── */
 (function() {
-  var track = document.querySelector('.leg-track');
-  if (!track || !('ontouchstart' in window)) return;
+  if (window.innerWidth > 900) return;
+  var carousel = document.querySelector('.leg-carousel');
+  if (!carousel) return;
 
-  var dragging = false;
-  var startX   = 0;
-  var pausedTX = 0;
-  var lastTX   = 0;
+  var paused = false;
+  var resumeTimer;
+  var SPEED = 0.9; // px por frame
 
-  function getTX() {
-    var t = window.getComputedStyle(track).transform;
-    if (!t || t === 'none') return 0;
-    var p = t.replace('matrix(','').replace(')','').split(',');
-    return parseFloat(p[4]) || 0;
+  function step() {
+    if (!paused) {
+      carousel.scrollLeft += SPEED;
+      var half = Math.floor(carousel.scrollWidth / 2);
+      if (carousel.scrollLeft >= half) {
+        carousel.scrollLeft -= half;
+      }
+    }
+    requestAnimationFrame(step);
   }
+  requestAnimationFrame(step);
 
-  track.addEventListener('touchstart', function(e) {
-    dragging  = true;
-    pausedTX  = getTX();
-    lastTX    = pausedTX;
-    startX    = e.touches[0].clientX;
-    track.style.animationPlayState = 'paused';
+  carousel.addEventListener('touchstart', function() {
+    paused = true;
+    clearTimeout(resumeTimer);
   }, { passive: true });
 
-  track.addEventListener('touchmove', function(e) {
-    if (!dragging) return;
-    var delta  = e.touches[0].clientX - startX;
-    var halfW  = track.scrollWidth / 2;
-    var tx     = pausedTX + delta;
-    // normalizar para [-halfW, 0)
-    tx = ((tx % halfW) + halfW) % halfW - halfW;
-    lastTX = tx;
-    track.style.transform = 'translateX(' + tx + 'px)';
+  carousel.addEventListener('touchend', function() {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(function() { paused = false; }, 2000);
   }, { passive: true });
-
-  function release() {
-    if (!dragging) return;
-    dragging = false;
-    var halfW    = track.scrollWidth / 2;
-    var progress = Math.max(0, Math.min(1, -lastTX / halfW));
-    var dur      = window.innerWidth <= 640 ? 22 : 60;
-    var delay    = (progress * dur).toFixed(3);
-
-    // Congela no frame atual, depois retoma a animação do mesmo ponto
-    track.style.animation  = 'none';
-    track.style.transform  = 'translateX(' + lastTX + 'px)';
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        track.style.transform = '';
-        track.style.animation = 'legScroll ' + dur + 's linear -' + delay + 's infinite';
-      });
-    });
-  }
-
-  track.addEventListener('touchend',   release, { passive: true });
-  track.addEventListener('touchcancel', release, { passive: true });
 })();
 
   /* -- Caterham Exp Scatter → Panel (sec-caterham-exp) -- */
