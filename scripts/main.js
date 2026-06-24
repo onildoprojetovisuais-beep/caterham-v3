@@ -805,16 +805,14 @@
 })();
 
 // ── TB Hero Scroll Story ─────────────────────────────────────
-// O scroll DO usuário É o playhead. Vídeo nunca toca sozinho.
-// Um único currentTime por RAF — sem lerp, sem threshold.
+// Desktop: scroll DO usuário é o playhead — vídeo nunca toca sozinho.
+// Mobile (≤768px): autoplay+loop, todo o texto visível de imediato.
 (function() {
   var story = document.getElementById('tbScrollStory');
   var video = document.getElementById('tbHeroVideo');
   if (!story || !video) return;
 
   var DURATION = 5.041667;
-
-  // Textos revelados progressivamente nos primeiros 50% do scroll
   var REVEALS = [
     { sel: '.tb-reveal-1', inAt: 0.00 },
     { sel: '.tb-reveal-2', inAt: 0.20 },
@@ -824,7 +822,17 @@
     return { el: document.querySelector(r.sel), inAt: r.inAt };
   });
 
-  // Primeiro frame visível, sem autoplay
+  // Mobile: autoplay loop, texto todo visível
+  if (window.innerWidth <= 768) {
+    video.loop = true;
+    video.play().catch(function() {});
+    items.forEach(function(item) {
+      if (item.el) item.el.classList.add('visible');
+    });
+    return;
+  }
+
+  // Desktop: scroll-driven playhead
   video.pause();
   video.currentTime = 0;
 
@@ -839,12 +847,8 @@
   function tick() {
     raf = null;
     var prog = getScrollProg();
-
-    // Vídeo cobre os primeiros 50% do scroll — depois congela no último frame
     var videoProg = Math.min(prog / 0.5, 1);
     video.currentTime = videoProg * DURATION;
-
-    // Texto bidirecional
     items.forEach(function(item) {
       if (!item.el) return;
       item.el.classList.toggle('visible', prog >= item.inAt);

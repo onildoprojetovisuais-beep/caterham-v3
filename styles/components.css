@@ -4104,6 +4104,21 @@ footer {
   .tb-sub { font-size: clamp(.95rem, 4vw, 1.2rem); }
 }
 
+/* ── Mobile: colapsa scroll story em hero estático com autoplay ── */
+@media (max-width: 768px) {
+  .tb-scroll-story {
+    height: 100svh;
+  }
+  .tb-scroll-sticky {
+    position: relative;
+    height: 100svh;
+  }
+  .tb-reveal {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
 /* ═══════════════════════════════════════════════
    A13 — #sec-tb-experience border-top override para página TB
 ═══════════════════════════════════════════════ */
