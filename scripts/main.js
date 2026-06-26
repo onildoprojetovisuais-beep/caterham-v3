@@ -694,32 +694,74 @@
    SECTION 12 — TESTIMONIALS CAROUSEL
    ============================================================ */
 
+// ── Testimonials inline video player ────────────────────────
+(function () {
+  var wrap  = document.getElementById('test-vid-wrap');
+  var video = document.getElementById('test-vid');
+  var btn   = document.getElementById('test-vid-btn');
+  if (!wrap || !video || !btn) return;
+
+  var DESK_SRC = '/assets/depoimentos/depoimento-desk.mp4';
+  var MOB_SRC  = '/assets/depoimentos/depoimento-mobile.mp4';
+  var activeSrc = null;
+
+  function loadSrc() {
+    var src = window.innerWidth <= 768 ? MOB_SRC : DESK_SRC;
+    if (src === activeSrc) return;
+    var wasPlaying = !video.paused;
+    activeSrc = src;
+    video.src = src;
+    video.load();
+    if (wasPlaying) video.play();
+  }
+
+  video.addEventListener('play',  function () {
+    wrap.classList.add('is-playing');
+    btn.setAttribute('aria-label', 'Pausar');
+  });
+  video.addEventListener('pause', function () {
+    wrap.classList.remove('is-playing');
+    btn.setAttribute('aria-label', 'Reproduzir');
+  });
+  video.addEventListener('ended', function () {
+    wrap.classList.remove('is-playing');
+    btn.setAttribute('aria-label', 'Reproduzir');
+  });
+
+  wrap.addEventListener('click', function () {
+    if (video.paused) { video.play(); } else { video.pause(); }
+  });
+
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(loadSrc, 300);
+  });
+
+  loadSrc();
+})();
+
+// ── Testimonials carousel (Team Building page) ───────────────
 (function () {
   var track   = document.getElementById('test-track');
   var dotsEl  = document.getElementById('test-dots');
   var prevBtn = document.querySelector('.test-nav--prev');
   var nextBtn = document.querySelector('.test-nav--next');
-
   if (!track || !dotsEl) return;
 
-  var dots     = Array.from(dotsEl.querySelectorAll('.test-dot'));
-  var cards    = Array.from(track.querySelectorAll('.test-card'));
-  var total    = cards.length;
-  var active   = 0;
+  var dots  = Array.from(dotsEl.querySelectorAll('.test-dot'));
+  var cards = Array.from(track.querySelectorAll('.test-card'));
+  var total = cards.length;
+  var active = 0;
   var scrollTimer = null;
 
-  /* ---- helpers ---- */
   function getCardWidth() {
     if (!cards[0]) return 296;
-    var rect = cards[0].getBoundingClientRect();
-    var gap  = 16;
-    return rect.width + gap;
+    return cards[0].getBoundingClientRect().width + 16;
   }
 
   function setActiveDot(index) {
-    dots.forEach(function (d, i) {
-      d.classList.toggle('test-dot--active', i === index);
-    });
+    dots.forEach(function (d, i) { d.classList.toggle('test-dot--active', i === index); });
     active = index;
   }
 
@@ -728,78 +770,47 @@
     if (nextBtn) nextBtn.disabled = active >= total - 1;
   }
 
-  /* ---- scroll listener → sync dots (debounced) ---- */
   track.addEventListener('scroll', function () {
     if (scrollTimer) clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function () {
-      var cardW  = getCardWidth();
-      /* find which card's left edge is closest to the track viewport left */
-      var offset = track.scrollLeft;
-      var idx    = Math.round(offset / cardW);
+      var idx = Math.round(track.scrollLeft / getCardWidth());
       idx = Math.max(0, Math.min(total - 1, idx));
-      if (idx !== active) {
-        setActiveDot(idx);
-        updateNavButtons();
-      }
+      if (idx !== active) { setActiveDot(idx); updateNavButtons(); }
     }, 60);
   }, { passive: true });
 
-  /* ---- arrow buttons ---- */
-  if (prevBtn) {
-    prevBtn.addEventListener('click', function () {
-      var target = Math.max(0, active - 1);
-      track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
-      setActiveDot(target);
-      updateNavButtons();
-    });
-  }
+  if (prevBtn) prevBtn.addEventListener('click', function () {
+    track.scrollBy({ left: -getCardWidth(), behavior: 'smooth' });
+    setActiveDot(Math.max(0, active - 1));
+    updateNavButtons();
+  });
 
-  if (nextBtn) {
-    nextBtn.addEventListener('click', function () {
-      var target = Math.min(total - 1, active + 1);
-      track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
-      setActiveDot(target);
-      updateNavButtons();
-    });
-  }
+  if (nextBtn) nextBtn.addEventListener('click', function () {
+    track.scrollBy({ left: getCardWidth(), behavior: 'smooth' });
+    setActiveDot(Math.min(total - 1, active + 1));
+    updateNavButtons();
+  });
 
-  /* ---- dot clicks ---- */
   dots.forEach(function (dot, i) {
     dot.addEventListener('click', function () {
-      var cardW = getCardWidth();
-      track.scrollTo({ left: i * cardW, behavior: 'smooth' });
-      setActiveDot(i);
-      updateNavButtons();
+      track.scrollTo({ left: i * getCardWidth(), behavior: 'smooth' });
+      setActiveDot(i); updateNavButtons();
     });
   });
 
-  /* ---- drag-to-scroll (desktop mouse) ---- */
-  var isDragging = false;
-  var dragStartX = 0;
-  var dragScrollLeft = 0;
-
+  var isDragging = false, dragStartX = 0, dragScrollLeft = 0;
   track.addEventListener('mousedown', function (e) {
-    isDragging    = true;
-    dragStartX    = e.pageX - track.offsetLeft;
-    dragScrollLeft = track.scrollLeft;
-    track.style.cursor = 'grabbing';
+    isDragging = true; dragStartX = e.pageX - track.offsetLeft;
+    dragScrollLeft = track.scrollLeft; track.style.cursor = 'grabbing';
   });
-
   document.addEventListener('mouseup', function () {
-    if (!isDragging) return;
-    isDragging = false;
-    track.style.cursor = 'grab';
+    if (!isDragging) return; isDragging = false; track.style.cursor = 'grab';
   });
-
   track.addEventListener('mousemove', function (e) {
-    if (!isDragging) return;
-    e.preventDefault();
-    var x    = e.pageX - track.offsetLeft;
-    var walk = (x - dragStartX) * 1.1;
-    track.scrollLeft = dragScrollLeft - walk;
+    if (!isDragging) return; e.preventDefault();
+    track.scrollLeft = dragScrollLeft - (e.pageX - track.offsetLeft - dragStartX) * 1.1;
   });
 
-  /* ---- init ---- */
   setActiveDot(0);
   updateNavButtons();
 })();

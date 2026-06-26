@@ -92,7 +92,7 @@
         Mais do que velocidade. Uma experiência de pista.
       </h1>
       <p class="hero-sub d1" data-r="up">
-        Viva a emoção da Caterham em um dos eventos mais exclusivos do Brasil.
+        Viva a emoção do Caterham em um dos eventos mais exclusivos do Brasil.
       </p>
       <div class="hero-cta d2" data-r="up">
         <a href="https://wa.me/5515998570854" class="btn btn-lime" target="_blank" rel="noopener">
@@ -1225,8 +1225,7 @@
      SECTION 12 — TESTIMONIALS VIDEO CAROUSEL
      C4: seção ocultada com style="display:none" — aguardando conteúdo real
      ============================================================ -->
-<!-- TESTIMONIALS: aguardando conteúdo real -->
-<section id="sec-testimonials" style="display:none">
+<section id="sec-testimonials">
   <div class="wrap">
     <div class="test-header" data-r>
       <span class="label">Depoimentos</span>
@@ -1239,95 +1238,25 @@
     </div>
   </div>
 
-  <!-- A2: atributo class duplicado corrigido — mesclado em um único class -->
-  <div class="test-carousel-wrapper d1" data-r>
-    <button class="test-nav test-nav--prev" aria-label="Anterior">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-
-    <div class="test-track" id="test-track">
-      <!-- Card 1 -->
-      <div class="test-card" data-index="0">
-        <div class="test-card-inner">
-          <span class="test-badge">Vídeo em breve</span>
-          <div class="test-play">
-            <span class="test-play-icon"></span>
-          </div>
-          <div class="test-shimmer"></div>
-          <div class="test-card-bottom">
-            <span class="test-name">Depoimento 01</span>
-          </div>
-        </div>
-      </div>
-      <!-- Card 2 -->
-      <div class="test-card" data-index="1">
-        <div class="test-card-inner">
-          <span class="test-badge">Vídeo em breve</span>
-          <div class="test-play">
-            <span class="test-play-icon"></span>
-          </div>
-          <div class="test-shimmer"></div>
-          <div class="test-card-bottom">
-            <span class="test-name">Depoimento 02</span>
-          </div>
-        </div>
-      </div>
-      <!-- Card 3 -->
-      <div class="test-card" data-index="2">
-        <div class="test-card-inner">
-          <span class="test-badge">Vídeo em breve</span>
-          <div class="test-play">
-            <span class="test-play-icon"></span>
-          </div>
-          <div class="test-shimmer"></div>
-          <div class="test-card-bottom">
-            <span class="test-name">Depoimento 03</span>
-          </div>
-        </div>
-      </div>
-      <!-- Card 4 -->
-      <div class="test-card" data-index="3">
-        <div class="test-card-inner">
-          <span class="test-badge">Vídeo em breve</span>
-          <div class="test-play">
-            <span class="test-play-icon"></span>
-          </div>
-          <div class="test-shimmer"></div>
-          <div class="test-card-bottom">
-            <span class="test-name">Depoimento 04</span>
-          </div>
-        </div>
-      </div>
-      <!-- Card 5 -->
-      <div class="test-card" data-index="4">
-        <div class="test-card-inner">
-          <span class="test-badge">Vídeo em breve</span>
-          <div class="test-play">
-            <span class="test-play-icon"></span>
-          </div>
-          <div class="test-shimmer"></div>
-          <div class="test-card-bottom">
-            <span class="test-name">Depoimento 05</span>
-          </div>
-        </div>
+  <div class="test-feature d1" data-r>
+    <div class="test-vid-wrap" id="test-vid-wrap">
+      <video class="test-vid" id="test-vid" muted playsinline preload="metadata"></video>
+      <div class="test-vid-overlay"></div>
+      <button class="test-vid-btn" id="test-vid-btn" aria-label="Reproduzir depoimento">
+        <svg class="test-vid-icon-play" width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.14v14l11-7-11-7z"/>
+        </svg>
+        <svg class="test-vid-icon-pause" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="6" y="4" width="4" height="16" rx="1"/>
+          <rect x="14" y="4" width="4" height="16" rx="1"/>
+        </svg>
+      </button>
+      <div class="test-vid-meta" aria-hidden="true">
+        <span class="test-vid-idx">01</span>
+        <span class="test-vid-label">Depoimento 01</span>
+        <span class="test-vid-total">01 / 01</span>
       </div>
     </div>
-
-    <button class="test-nav test-nav--next" aria-label="Próximo">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <path d="M8 4L14 10L8 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-  </div>
-
-  <div class="test-dots" id="test-dots" data-r>
-    <button class="test-dot test-dot--active" data-dot="0" aria-label="Slide 1"></button>
-    <button class="test-dot" data-dot="1" aria-label="Slide 2"></button>
-    <button class="test-dot" data-dot="2" aria-label="Slide 3"></button>
-    <button class="test-dot" data-dot="3" aria-label="Slide 4"></button>
-    <button class="test-dot" data-dot="4" aria-label="Slide 5"></button>
   </div>
 </section>
 
