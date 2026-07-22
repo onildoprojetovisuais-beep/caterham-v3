@@ -1437,15 +1437,7 @@ footer {
     aspect-ratio: 3/4;
   }
   .atv-scroll-nav {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    padding: 20px 0 0;
-  }
-  .atv-nav-btn {
-    color: rgba(245, 245, 245, 0.75);
-    font-size: 1.1rem;
+    display: none;
   }
 }
 @media (min-width: 769px) {
@@ -2192,7 +2184,7 @@ footer {
 @media (max-width: 768px) {
   .ft-grid { grid-template-columns: 1fr; gap: 28px; }
   .ft-car-name { font-size: 26px; }
-  #sec-caterham-what { padding-bottom: 40px; }
+  #sec-caterham-what { padding-bottom: 80px; }
 }
 
 /* ── SEC-LEGACY: imagem + conteúdo lado a lado ── */
@@ -2406,10 +2398,10 @@ footer {
     background:
       linear-gradient(to bottom, transparent 55%, var(--ink) 100%);
   }
-  .leg-content-col { padding: 48px 24px 32px; }
+  .leg-content-col { padding: 48px 24px 0; }
   .leg-headline { font-size: clamp(38px, 9vw, 56px); }
-  .leg-divider { margin: 24px 0; }
-  .leg-legends { grid-template-columns: 1fr; gap: 0; padding: 8px 24px 0; }
+  .leg-divider { margin: 24px 0 8px; }
+  .leg-legends { grid-template-columns: 1fr; gap: 0; padding: 0 24px 6px; }
   .leg-legend-item {
     padding: 16px 0;
     border-bottom: 1px solid rgba(255,255,255,.06);
@@ -5225,7 +5217,7 @@ footer {
 
 @media (max-width: 768px) {
   #sec-fast-laps {
-    padding: 56px 0 72px;
+    padding: 96px 0 72px;
   }
   .fl-wrap {
     padding: 0 20px;
@@ -5976,6 +5968,10 @@ footer {
   padding: clamp(80px, 10vw, 140px) 0;
   border-top: 1px solid var(--paper-08);
   border-bottom: 1px solid var(--paper-08);
+}
+
+@media (max-width: 768px) {
+  #sec-pdf-guide { padding-top: 130px; }
 }
 
 .pdf-guide-header {
